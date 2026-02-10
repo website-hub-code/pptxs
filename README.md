@@ -1,1 +1,1 @@
-As the description and the name suggests, this repo is for browsing and getting inspiration for all kinds of pptx files and till now only `1` presentation is there. You can add more by PRs.
+<p align="center">As the description and the name suggests, this repo is for browsing and getting inspiration for all kinds of pptx files and till now only `1` presentation is there. You can add more by PRs and also to view and search the presentations, visit the index.html</p>
