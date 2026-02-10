@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SlideVault | Premium Resource Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1; /* Modern Indigo */
+            --primary-hover: #4f46e5;
+            --bg: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Hero / Header Section */
+        .header-section {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            clip-path: ellipse(150% 100% at 50% 0%);
+        }
+
+        .header-section h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+
+        .header-section p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: -40px auto 60px;
+            padding: 0 20px;
+        }
+
+        /* Modern Search Bar */
+        .search-wrapper {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto 50px;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 20px 30px;
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        #searchInput:focus {
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        /* The Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        /* Aesthetic Card Design */
+        .card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            border-color: var(--primary);
+        }
+
+        /* Icon Placeholder */
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: #eef2ff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color: var(--text-main);
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            border-top: 1px solid #f1f5f9;
+            padding-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        .author-name { font-size: 0.9rem; font-weight: 600; }
+
+        .btn-download {
+            background: var(--primary);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .btn-download:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Empty State */
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 40px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+<section class="header-section">
+    <h1>Asset Library</h1>
+    <p>Premium PowerPoint presentations at your fingertips</p>
+</section>
+
+<div class="container">
+    <div class="search-wrapper">
+        <input type="text" id="searchInput" placeholder="Search by title, author, or keywords...">
+    </div>
+
+    <div class="grid" id="assetGrid">
+        </div>
+</div>
+
+<script>
+    // 1. Your Structured Array
+    const presentations = [
+        {
+            name: "SDG 15: Life on Land",
+            description: "A presentation template on the SDG 15: Life on Land.",
+            author: "Anonymous",
+            fileLocation: "Life on Land SDG 15.pptx.pptx"
+        }
+    ];
+
+    const grid = document.getElementById('assetGrid');
+    const searchInput = document.getElementById('searchInput');
+
+    // 2. Render Function
+    function render(items) {
+        grid.innerHTML = '';
+        
+        if (items.length === 0) {
+            grid.innerHTML = '<div class="no-results">No presentations found matching your search.</div>';
+            return;
+        }
+
+        items.forEach(ppt => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-icon">PPT</div>
+                <h3 class="card-title">${ppt.name}</h3>
+                <p class="card-desc">${ppt.description}</p>
+                <div class="card-footer">
+                    <div class="author-info">
+                        <span class="author-label">Author</span>
+                        <span class="author-name">${ppt.author}</span>
+                    </div>
+                    <a href="${ppt.fileLocation}" class="btn-download" download>Download</a>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    // 3. Search Logic
+    searchInput.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        const filtered = presentations.filter(p => 
+            p.name.toLowerCase().includes(term) || 
+            p.author.toLowerCase().includes(term) ||
+            p.description.toLowerCase().includes(term)
+        );
+        render(filtered);
+    });
+
+    // Initial load
+    render(presentations);
+</script>
+
+</body>
+</html>
