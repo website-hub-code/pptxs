@@ -1,2 +1,2 @@
 <p align="center">As the description and the name suggests, this repo is for browsing and getting inspiration for all kinds of pptx files and till now only `1` presentation is there. You can add more by PRs and also to view and search the presentations, visit the index.html</p>
-<p style="display:inline;background:linear-gradient(to right,blue,red);background-clip:text;color:transparent;" align="center">And please star this repo if you have liked it, and also try to add more presentations</p>
+<div style="display:inline-block;background:linear-gradient(to right,blue,red);background-clip:text;color:transparent;" align="center">And please star this repo if you have liked it, and also try to add more presentations</div>
